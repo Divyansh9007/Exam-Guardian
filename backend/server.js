@@ -17,7 +17,10 @@ const port = process.env.PORT || 6001;
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://exam-guardian.vercel.app", // Placeholder
+  "https://exam-guardian.onrender.com/",
+  "https://exam-guardian.vercel.app",
+  "https://exam-guardian-ten.vercel.app", //my frontend
+  // Placeholder
 ];
 
 app.use(
