@@ -12,15 +12,12 @@ import submissionRoutes from "./routes/submissionRoutes.js";
 dotenv.config();
 connectDB();
 const app = express();
-const port = process.env.PORT || 6001;
+const port = process.env.PORT || 5000;
 
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://exam-guardian.onrender.com/",
-  "https://exam-guardian.vercel.app",
-  "https://exam-guardian-ten.vercel.app", //my frontend
-  // Placeholder
+  "https://exam-guardian.vercel.app", // Placeholder
 ];
 
 app.use(
@@ -30,14 +27,29 @@ app.use(
   })
 );
 
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     console.log(">> Incoming origin:", origin);
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true
+// }));
+
+// app.use(cors());
+
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
+// server.js
 app.use("/api/users", userRoutes);
-app.use("/api/users", examRoutes);
+app.use("/api/exam", examRoutes); // Change this to /api/exams
 app.use("/api/submissions", submissionRoutes);
 
 // Simple API status endpoint (removed static file serving for separate deployment)
@@ -51,6 +63,13 @@ app.get("/", (req, res) => {
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
+});
+
+app.get("/api/debug-cookie", (req, res) => {
+  res.json({
+    cookie: req.cookies?.jwt || null,
+    message: req.cookies?.jwt ? "JWT received" : "No JWT in cookies",
+  });
 });
 
 // Custom Middlewares

@@ -92,26 +92,17 @@ const StatsCard = memo(({ stat, index, isDark }) => (
   <Fade in timeout={600 + index * 100}>
     <Card
       sx={{
-        background: `linear-gradient(135deg, ${alpha(
+        background: `linear-gradient(135deg, ${alpha(stat.color, 0.1)} 0%, ${alpha(
           stat.color,
-          0.1
-        )} 0%, ${alpha(stat.color, 0.05)} 100%)`,
-        border: `1px solid ${alpha(
-          stat.color,
-          isDark ? 0.3 : 0.2
-        )}`,
+          0.05,
+        )} 100%)`,
+        border: `1px solid ${alpha(stat.color, isDark ? 0.3 : 0.2)}`,
         borderRadius: 3,
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
           transform: 'translateY(-2px)',
-          boxShadow: `0 8px 24px ${alpha(
-            stat.color,
-            isDark ? 0.25 : 0.15
-          )}`,
-          border: `1px solid ${alpha(
-            stat.color,
-            isDark ? 0.4 : 0.3
-          )}`,
+          boxShadow: `0 8px 24px ${alpha(stat.color, isDark ? 0.25 : 0.15)}`,
+          border: `1px solid ${alpha(stat.color, isDark ? 0.4 : 0.3)}`,
         },
       }}
     >
@@ -149,18 +140,22 @@ const FeatureCard = memo(({ feature, index, isDark }) => {
     <Fade in timeout={800 + index * 150}>
       <Card
         sx={{
-          background: isDark 
-            ? 'linear-gradient(135deg, #334155 0%, #475569 100%)'
-            : '#ffffff',
+          background: isDark ? 'linear-gradient(135deg, #334155 0%, #475569 100%)' : '#ffffff',
           border: `1px solid ${isDark ? '#64748b' : '#e0e0e0'}`,
           borderRadius: 3,
           height: '100%',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             transform: 'translateY(-4px)',
-            background: isDark 
-              ? `linear-gradient(135deg, ${alpha(feature.color, 0.15)} 0%, ${alpha(feature.color, 0.08)} 100%)`
-              : `linear-gradient(135deg, ${alpha(feature.color, 0.02)} 0%, ${alpha(feature.color, 0.05)} 100%)`, // Light mode hover background
+            background: isDark
+              ? `linear-gradient(135deg, ${alpha(feature.color, 0.15)} 0%, ${alpha(
+                  feature.color,
+                  0.08,
+                )} 100%)`
+              : `linear-gradient(135deg, ${alpha(feature.color, 0.02)} 0%, ${alpha(
+                  feature.color,
+                  0.05,
+                )} 100%)`, // Light mode hover background
             boxShadow: isDark
               ? `0 12px 32px ${alpha(feature.color, 0.4)}, 0 0 0 1px ${alpha(feature.color, 0.3)}`
               : `0 12px 32px ${alpha(feature.color, 0.15)}, 0 0 0 1px ${alpha(feature.color, 0.2)}`, // Light mode hover shadow
@@ -168,7 +163,7 @@ const FeatureCard = memo(({ feature, index, isDark }) => {
             '& .feature-icon': {
               bgcolor: alpha(feature.color, isDark ? 0.4 : 0.15), // More prominent in light mode
               color: isDark ? '#ffffff' : feature.color,
-              boxShadow: isDark 
+              boxShadow: isDark
                 ? `0 4px 12px ${alpha(feature.color, 0.3)}`
                 : `0 4px 12px ${alpha(feature.color, 0.2)}`, // Light mode icon shadow
             },
@@ -217,94 +212,100 @@ const FeatureCard = memo(({ feature, index, isDark }) => {
   );
 });
 
-
-const FormField = memo(({ 
-  name, 
-  label, 
-  type = 'text', 
-  icon: Icon, 
-  placeholder, 
-  multiline = false, 
-  rows = 1,
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-  error,
-  helperText,
-  focusedField,
-  isDark
-}) => {
-  return (
-    <TextField
-      fullWidth
-      name={name}
-      label={label}
-      type={type}
-      placeholder={placeholder}
-      multiline={multiline}
-      rows={rows}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      error={error}
-      helperText={helperText}
-      InputProps={{
-        startAdornment: Icon && (
-          <InputAdornment position="start">
-            <Icon
-              sx={{
-                color: focusedField === name 
-                  ? (isDark ? '#5D87FF' : '#1976d2')
-                  : (isDark ? '#94a3b8' : 'text.secondary'),
-              }}
-            />
-          </InputAdornment>
-        ),
-      }}
-      sx={{
-        '& .MuiInputLabel-root': {
-          color: isDark ? '#cbd5e1' : undefined,
-          fontSize: '1rem', // Larger label text
-          fontWeight: 500, // Medium weight for better visibility
-          '&.Mui-focused': {
-            color: isDark ? '#5D87FF' : '#1976d2',
+const FormField = memo(
+  ({
+    name,
+    label,
+    type = 'text',
+    icon: Icon,
+    placeholder,
+    multiline = false,
+    rows = 1,
+    value,
+    onChange,
+    onBlur,
+    onFocus,
+    error,
+    helperText,
+    focusedField,
+    isDark,
+  }) => {
+    return (
+      <TextField
+        fullWidth
+        name={name}
+        label={label}
+        type={type}
+        placeholder={placeholder}
+        multiline={multiline}
+        rows={rows}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        error={error}
+        helperText={helperText}
+        InputProps={{
+          startAdornment: Icon && (
+            <InputAdornment position="start">
+              <Icon
+                sx={{
+                  color:
+                    focusedField === name
+                      ? isDark
+                        ? '#5D87FF'
+                        : '#1976d2'
+                      : isDark
+                      ? '#94a3b8'
+                      : 'text.secondary',
+                }}
+              />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          '& .MuiInputLabel-root': {
+            color: isDark ? '#cbd5e1' : undefined,
+            fontSize: '1rem', // Larger label text
+            fontWeight: 500, // Medium weight for better visibility
+            '&.Mui-focused': {
+              color: isDark ? '#5D87FF' : '#1976d2',
+            },
+            '&.MuiInputLabel-shrink': {
+              fontSize: '0.875rem', // Slightly smaller when shrunk but still readable
+            },
           },
-          '&.MuiInputLabel-shrink': {
-            fontSize: '0.875rem', // Slightly smaller when shrunk but still readable
+          '& .MuiOutlinedInput-root': {
+            borderRadius: 2,
+            backgroundColor: isDark ? '#334155' : '#fff',
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: isDark ? '#64748b' : undefined,
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: isDark ? '#94a3b8' : alpha('#1976d2', 0.5),
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: isDark ? '#5D87FF' : '#1976d2',
+              borderWidth: 2,
+            },
+            '& input': {
+              color: isDark ? '#f8fafc' : undefined,
+            },
+            '& textarea': {
+              color: isDark ? '#f8fafc' : undefined,
+            },
           },
-        },
-        '& .MuiOutlinedInput-root': {
-          borderRadius: 2,
-          backgroundColor: isDark ? '#334155' : '#fff',
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: isDark ? '#64748b' : undefined,
+          '& .MuiFormHelperText-root': {
+            color: isDark ? '#94a3b8' : undefined,
+            '&.Mui-error': {
+              color: isDark ? '#FA896B' : undefined,
+            },
           },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: isDark ? '#94a3b8' : alpha('#1976d2', 0.5),
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: isDark ? '#5D87FF' : '#1976d2',
-            borderWidth: 2,
-          },
-          '& input': {
-            color: isDark ? '#f8fafc' : undefined,
-          },
-          '& textarea': {
-            color: isDark ? '#f8fafc' : undefined,
-          },
-        },
-        '& .MuiFormHelperText-root': {
-          color: isDark ? '#94a3b8' : undefined,
-          '&.Mui-error': {
-            color: isDark ? '#FA896B' : undefined,
-          },
-        },
-      }}
-    />
-  );
-});
+        }}
+      />
+    );
+  },
+);
 
 const CreateExamPage = memo(({ onSubmit }) => {
   const theme = useTheme();
@@ -312,21 +313,20 @@ const CreateExamPage = memo(({ onSubmit }) => {
   const [focusedField, setFocusedField] = useState(null);
   const [loading, setLoading] = useState(false); // ✅ add this
 
-
   const handleSubmit = async (values) => {
     const payload = {
       examName: values.examName,
-      duration: values.examDuration,        // ✅ matches schema
+      duration: values.examDuration, // ✅ matches schema
       totalQuestions: values.totalQuestions,
-      liveDate: values.liveDateTime,        // ✅ renamed
-      deadDate: values.deadDateTime,        // ✅ renamed
+      liveDate: values.liveDateTime, // ✅ renamed
+      deadDate: values.deadDateTime, // ✅ renamed
     };
     try {
       setLoading(true);
-      await axios.post("/api/users/exam", payload); // or use a Redux action
-      toast.success("Exam created!");
+      await axios.post('/api/exam', payload); // or use a Redux action
+      toast.success('Exam created!');
     } catch (err) {
-      toast.error("Failed to create exam");
+      toast.error('Failed to create exam');
     } finally {
       setLoading(false);
     }
@@ -354,20 +354,24 @@ const CreateExamPage = memo(({ onSubmit }) => {
   }, [formik]);
 
   // Stable references for memoized components
-  const statsCards = useMemo(() => 
-    platformStats.map((stat, idx) => (
-      <Grid item xs={6} sm={3} key={stat.label}>
-        <StatsCard stat={stat} index={idx} isDark={isDark} />
-      </Grid>
-    )), [isDark]
+  const statsCards = useMemo(
+    () =>
+      platformStats.map((stat, idx) => (
+        <Grid item xs={6} sm={3} key={stat.label}>
+          <StatsCard stat={stat} index={idx} isDark={isDark} />
+        </Grid>
+      )),
+    [isDark],
   );
 
-  const featureCards = useMemo(() => 
-    platformFeatures.map((feature, idx) => (
-      <Grid item xs={12} sm={6} lg={12} key={feature.title}>
-        <FeatureCard feature={feature} index={idx} isDark={isDark} />
-      </Grid>
-    )), [isDark]
+  const featureCards = useMemo(
+    () =>
+      platformFeatures.map((feature, idx) => (
+        <Grid item xs={12} sm={6} lg={12} key={feature.title}>
+          <FeatureCard feature={feature} index={idx} isDark={isDark} />
+        </Grid>
+      )),
+    [isDark],
   );
 
   return (
@@ -377,21 +381,21 @@ const CreateExamPage = memo(({ onSubmit }) => {
         background: isDark
           ? `linear-gradient(135deg, ${theme.palette.background.default} 0%, ${alpha(
               theme.palette.background.paper,
-              0.05
+              0.05,
             )} 100%)`
           : `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.03)} 0%, ${alpha(
               theme.palette.background.paper,
-              1
+              1,
             )} 50%, ${alpha(theme.palette.secondary.main, 0.03)} 100%)`,
         py: { xs: 2, sm: 3, md: 4 },
       }}
     >
-      <Container 
-        maxWidth={false} 
-        sx={{ 
+      <Container
+        maxWidth={false}
+        sx={{
           px: { xs: 2, sm: 3, md: 4, lg: 6 },
           maxWidth: '1600px',
-          mx: 'auto'
+          mx: 'auto',
         }}
       >
         {/* Header Section */}
@@ -459,8 +463,8 @@ const CreateExamPage = memo(({ onSubmit }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                   <Avatar
                     sx={{
-                      bgcolor: isDark 
-                        ? theme.palette.primary.main 
+                      bgcolor: isDark
+                        ? theme.palette.primary.main
                         : alpha(theme.palette.primary.main, 0.1),
                       color: isDark ? '#ffffff' : theme.palette.primary.main,
                       mr: 2,
@@ -506,8 +510,8 @@ const CreateExamPage = memo(({ onSubmit }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
                   <Avatar
                     sx={{
-                      bgcolor: isDark 
-                        ? theme.palette.secondary.main 
+                      bgcolor: isDark
+                        ? theme.palette.secondary.main
                         : alpha(theme.palette.secondary.main, 0.1),
                       color: isDark ? '#ffffff' : theme.palette.secondary.main,
                       mr: 2,
@@ -565,7 +569,7 @@ const CreateExamPage = memo(({ onSubmit }) => {
                       focusedField={focusedField}
                       isDark={isDark}
                     />
-                    <Grid container spacing={{ xs: 2, sm: 3 }}>  
+                    <Grid container spacing={{ xs: 2, sm: 3 }}>
                       <Grid item xs={12} sm={6}>
                         <FormField
                           name="totalQuestions"
@@ -577,7 +581,9 @@ const CreateExamPage = memo(({ onSubmit }) => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           onFocus={() => handleFieldFocus('totalQuestions')}
-                          error={formik.touched.totalQuestions && Boolean(formik.errors.totalQuestions)}
+                          error={
+                            formik.touched.totalQuestions && Boolean(formik.errors.totalQuestions)
+                          }
                           helperText={formik.touched.totalQuestions && formik.errors.totalQuestions}
                           focusedField={focusedField}
                           isDark={isDark}
